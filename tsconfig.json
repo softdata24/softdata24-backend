@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "target": "ES2024",
+    "module": "CommonJS",
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "paths": {
+      "@types/*": ["./types/*"],
+      "@dto/*": ["./src/dto/*"],
+      "@controllers/*": ["./src/controllers/*"],
+      "@models/*": ["./src/models/*"],
+      "@services/*": ["./src/services/*"],
+      "@utils/*": ["./src/utils/*"],
+      "@routes/*": ["./src/routes/*"],
+      "@middlewares/*": ["./src/middlewares/*"],
+      "@templates/*": ["./src/templates/*"]
+    },
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true
+  },
+  // "include": ["src"]
+  "include": ["src", "types/global.d.ts"],
+  "exclude": ["node_modules", "dist"]
+}
