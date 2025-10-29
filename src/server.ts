@@ -12,13 +12,13 @@ connectDB();
 import { mailTransporter } from "./config/mailer.config";
 import { errorHandler } from "@middlewares/errorHandler.middleware";
 
-// mailTransporter.verify((error, success) => {
-//   if (error) {
-//     console.error("Mail transporter error:", error);
-//   } else {
-//     console.log("Mail server is ready to send messages ✔️");
-//   }
-// });
+mailTransporter.verify((error, success) => {
+  if (error) {
+    console.error("Mail transporter error:", error);
+  } else {
+    console.log("Mail server is ready to send messages ✔️");
+  }
+});
 
 import v1_user_routes from "./routes/v1.routes";
 
