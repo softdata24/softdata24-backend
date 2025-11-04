@@ -39,7 +39,10 @@ app.use(cors({
     "http://127.0.0.1:3001",
     "http://127.0.0.1:8080",
     "http://127.0.0.1:8000",
-    "http://127.0.0.1:8081"
+    "http://127.0.0.1:8081",
+    "https://softdata24.com",
+    "https://www.softdata24.com",
+    "https://softdata24.com/"
   ],
   credentials: true,                // if you want to send cookies
   methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
