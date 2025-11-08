@@ -31,10 +31,11 @@ export class AuthController {
     if (!result) throw ApiError.Unauthorized("Invalid credentials");
 
     // Set JWT as HttpOnly cookie
+    const isProduction = process.env.NODE_ENV === "production";
     res.cookie("access_token", result.access_token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "none", // CSRF protection
+      secure: isProduction, // Only true in production (with HTTPS)
+      sameSite: isProduction ? "none" : "lax", // "none" requires secure: true, so use "lax" in dev
       maxAge: 1000 * 60 * 60, // 1 hr
     });
 
@@ -53,10 +54,11 @@ export class AuthController {
       const result = await AuthService.loginOAuth(output);
       if (!result) throw ApiError.Unauthorized("OAuth login failed");
 
+      const isProduction = process.env.NODE_ENV === "production";
       res.cookie("access_token", result.access_token, {
         httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
-        sameSite: "none", // CSRF protection
+        secure: isProduction, // Only true in production (with HTTPS)
+        sameSite: isProduction ? "none" : "lax", // "none" requires secure: true, so use "lax" in dev
         maxAge: 1000 * 60 * 60, // 1 hr
       });
 
@@ -72,10 +74,11 @@ export class AuthController {
       const result = await AuthService.loginOAuth(githubUser);
 
       // Set JWT as HttpOnly cookie
+      const isProduction = process.env.NODE_ENV === "production";
       res.cookie("access_token", result.access_token, {
         httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
-        sameSite: "none", // CSRF protection
+        secure: isProduction, // Only true in production (with HTTPS)
+        sameSite: isProduction ? "none" : "lax", // "none" requires secure: true, so use "lax" in dev
         maxAge: 1000 * 60 * 60, // 1 hr
       });
 

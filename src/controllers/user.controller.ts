@@ -18,11 +18,13 @@ export class UserController {
 
   static logout = asyncHandler(async (req: Request, res: Response) => {
     // Clear the access token cookie
+    // Use appropriate attributes based on environment
+    const isProduction = process.env.NODE_ENV === "production";
     res.cookie("access_token", "", {
       httpOnly: true,
       expires: new Date(0), // Set to past date to delete cookie
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "none",
+      secure: isProduction, // Only true in production (with HTTPS)
+      sameSite: isProduction ? "none" : "lax", // "none" requires secure: true, so use "lax" in dev
     });
 
     return res.status(200).json(new ApiResponse(200, {}, "Logged out successfully"));
