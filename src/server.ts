@@ -1,5 +1,6 @@
 import express, { type Application, type Request, type Response, type NextFunction } from "express";
 import cors from "cors";
+import cookieParser from 'cookie-parser';
 
 import dotenv from "dotenv";
 dotenv.config({
@@ -54,6 +55,9 @@ app.use(express.json());
 
 // Parse URL-encoded form data
 app.use(express.urlencoded({ extended: true }));
+
+// Add this middleware BEFORE your routes
+app.use(cookieParser());
 
 app.disable('x-powered-by');
 
