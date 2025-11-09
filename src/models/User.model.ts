@@ -36,7 +36,7 @@ const BaseUserSchema = new Schema<IBaseUser>(
   {
     username: { type: String, required: true, unique: true, minlength: 3, maxlength: 20 },
     fname: { type: String, required: true, trim: true, maxlength: 50 },
-    lname: { type: String, required: true, trim: false, maxlength: 50 },
+    lname: { type: String, required: false, trim: true, maxlength: 50 },
     email: { type: String, lowercase: true, trim: true, maxlength: 50, unique: true, sparse: true },
     phone: {
       type: String,
