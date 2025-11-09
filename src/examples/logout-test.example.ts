@@ -11,7 +11,7 @@ async function testLogoutFunctionality() {
 
   // Step 1: Simulate a user with a valid token
   console.log('Step 1: Testing with valid token');
-  const mockToken = jwt.sign({ id: 'test-user-id' }, process.env.JWT_SECRET || "secret", { expiresIn: '1h' });
+  const mockToken = jwt.sign({ id: 'test-user-id' }, process.env.JWT_SECRET || "fallbackSecretForTesting", { expiresIn: '1h' });
   
   console.log('✓ Mock token generated:', mockToken.substring(0, 20) + '...');
 

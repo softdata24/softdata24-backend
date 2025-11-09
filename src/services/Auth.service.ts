@@ -5,7 +5,14 @@ import { EmailUser, GoogleUser, GithubUser, BaseUser, IBaseUser } from "../model
 import { AuthRegisterDto, AuthLoginDto, AuthOAuthDto } from "../dto/Auth.dto";
 
 const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
-const JWT_SECRET = process.env.JWT_SECRET || "secret"; // use .env
+
+// Validate JWT secret is properly configured
+if (!process.env.JWT_SECRET) {
+  console.error("CRITICAL ERROR: JWT_SECRET environment variable is not set!");
+  console.error("Please set JWT_SECRET in your environment variables.");
+  process.exit(1); // Exit the application if JWT_SECRET is not configured
+}
+const JWT_SECRET = process.env.JWT_SECRET;
 const JWT_EXPIRY = "1h";
 
 export class AuthService {

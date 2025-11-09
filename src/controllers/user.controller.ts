@@ -25,6 +25,7 @@ export class UserController {
       expires: new Date(0), // Set to past date to delete cookie
       secure: isProduction, // Only true in production (with HTTPS)
       sameSite: isProduction ? "none" : "lax", // "none" requires secure: true, so use "lax" in dev
+      path: "/",
     });
 
     return res.status(200).json(new ApiResponse(200, {}, "Logged out successfully"));

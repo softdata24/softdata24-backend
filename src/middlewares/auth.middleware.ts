@@ -7,6 +7,14 @@ interface AuthRequest extends Request {
   user?: any;
 }
 
+// Verify JWT_SECRET is defined
+const JWT_SECRET = process.env.JWT_SECRET;
+if (!JWT_SECRET) {
+  console.error("CRITICAL ERROR: JWT_SECRET environment variable is not set in middleware!");
+  console.error("Please set JWT_SECRET in your environment variables.");
+  process.exit(1); // Exit if not configured properly
+}
+
 export const verifyJWT = async (req: AuthRequest, res: Response, next: NextFunction) => {
   try {
     // Extract token from cookie
@@ -17,7 +25,7 @@ export const verifyJWT = async (req: AuthRequest, res: Response, next: NextFunct
     }
 
     // Verify token
-    const decodedToken: any = jwt.verify(token, process.env.JWT_SECRET || "secret");
+    const decodedToken: any = jwt.verify(token, JWT_SECRET);
 
     // Find user and attach to request
     const user = await BaseUser.findById(decodedToken?.id).select("-password -deletedAt");
@@ -29,7 +37,15 @@ export const verifyJWT = async (req: AuthRequest, res: Response, next: NextFunct
     req.user = user;
     next();
   } catch (error) {
-    throw new ApiError(401, "Invalid or expired token");
+    if (error instanceof jwt.JsonWebTokenError) {
+      throw new ApiError(401, "Invalid or expired token");
+    } else if (error instanceof jwt.TokenExpiredError) {
+      throw new ApiError(401, "Token has expired");
+    } else if (error instanceof jwt.NotBeforeError) {
+      throw new ApiError(401, "Token not yet valid");
+    } else {
+      throw new ApiError(401, "Invalid or expired token");
+    }
   }
 };
 
@@ -45,7 +61,7 @@ export const isLoggedIn = async (req: AuthRequest, res: Response, next: NextFunc
     }
 
     // Verify token
-    const decodedToken: any = jwt.verify(token, process.env.JWT_SECRET || "secret");
+    const decodedToken: any = jwt.verify(token, JWT_SECRET);
 
     // Find user and attach to request
     const user = await BaseUser.findById(decodedToken?.id).select("-password -deletedAt");

@@ -37,6 +37,7 @@ export class AuthController {
       secure: isProduction, // Only true in production (with HTTPS)
       sameSite: isProduction ? "none" : "lax", // "none" requires secure: true, so use "lax" in dev
       maxAge: 1000 * 60 * 60, // 1 hr
+      path: "/",
     });
 
     return res
@@ -60,6 +61,7 @@ export class AuthController {
         secure: isProduction, // Only true in production (with HTTPS)
         sameSite: isProduction ? "none" : "lax", // "none" requires secure: true, so use "lax" in dev
         maxAge: 1000 * 60 * 60, // 1 hr
+        path: "/",
       });
 
       return res.status(200)
@@ -80,6 +82,7 @@ export class AuthController {
         secure: isProduction, // Only true in production (with HTTPS)
         sameSite: isProduction ? "none" : "lax", // "none" requires secure: true, so use "lax" in dev
         maxAge: 1000 * 60 * 60, // 1 hr
+        path: "/",
       });
 
       return res.status(200).json(new ApiResponse(200, result, "OAuth login successful"));
